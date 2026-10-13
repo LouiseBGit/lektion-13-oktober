@@ -37,3 +37,9 @@ jobs:
               run: docker build -t ${{ secrets.DOCKER_USERNAME }}/weatherapi:${{ github.sha }} .
             - name: Push Docker image
               run: docker push ${{ secrets.DOCKER_USERNAME }}/weatherapi:${{ github.sha }}
+            - name: Deploy to Azure Web App
+              uses: azure/webapps-deploy@v3
+              with:
+                  app-name: sut25-LB-2026-10-13
+                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLIC }}
+                  images: ${{ secrets.DOCKER_USERNAME }}/weatherapi:${{ github.sha }}
